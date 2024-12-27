@@ -49,13 +49,17 @@ function ShareMenu({ isVisible, toggleVisibility, tweet, imgur }) {
           margin="0 8px 0 -1px"
           onClick={toggleVisibility}
           data-cy="share-button"
-          style={{ borderBottomLeftRadius: 0, borderTopLeftRadius: 0 }}
+          style={{
+            borderBottomLeftRadius: 0,
+            borderTopLeftRadius: 0,
+            maxWidth: '26px',
+          }}
           title="Share menu dropdown"
         >
           <ArrowDown color={COLORS.BLUE} />
         </Button>
       </div>
-      <Popout hidden={!isVisible} borderColor={COLORS.BLUE} pointerRight="7px" style={popoutStyle}>
+      <Popout hidden={!isVisible} borderColor={COLORS.BLUE} pointerRight="6px" style={popoutStyle}>
         <div className="share-row flex">
           <Button padding="8px" color={COLORS.BLUE} onClick={onClickImgur}>
             {imguring ? 'Uploading...' : 'Upload to Imgur (beta)'}

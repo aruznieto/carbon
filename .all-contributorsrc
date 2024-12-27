@@ -3,6 +3,8 @@
   "projectOwner": "carbon-app",
   "files": [
     "README.md",
+    "docs/README.ar.md",
+    "docs/README.bn.md",
     "docs/README.br.pt.md",
     "docs/README.cn.zh.md",
     "docs/README.de.md",
@@ -17,11 +19,13 @@
     "docs/README.ml.md",
     "docs/README.nl.md",
     "docs/README.pl.md",
+    "docs/README.ru.md",
     "docs/README.se.md",
     "docs/README.ta.md",
     "docs/README.tr.md",
     "docs/README.tw.zh.md",
-    "docs/README.ua.md"
+    "docs/README.ua.md",
+    "docs/README.uz.md"
   ],
   "imageSize": 100,
   "commit": false,
@@ -242,15 +246,6 @@
       ]
     },
     {
-      "login": "TorzuoliH",
-      "name": "Hugo Torzuoli",
-      "avatar_url": "https://avatars1.githubusercontent.com/u/7328625?v=4",
-      "profile": "https://torzuolih.github.io",
-      "contributions": [
-        "doc"
-      ]
-    },
-    {
       "login": "imbrn",
       "name": "Bruno C. Couto",
       "avatar_url": "https://avatars1.githubusercontent.com/u/1906977?v=4",
@@ -308,7 +303,7 @@
       "login": "ericadamski",
       "name": "Eric Adamski",
       "avatar_url": "https://avatars0.githubusercontent.com/u/6516758?v=4",
-      "profile": "https://ericadamski.github.com",
+      "profile": "https://github.com/ericadamski",
       "contributions": [
         "code"
       ]
@@ -781,15 +776,6 @@
       ]
     },
     {
-      "login": "JeremyShih",
-      "name": "Jeremy Shih",
-      "avatar_url": "https://avatars3.githubusercontent.com/u/7455516?v=4",
-      "profile": "https://github.com/JeremyShih",
-      "contributions": [
-        "translation"
-      ]
-    },
-    {
       "login": "george1410",
       "name": "George McCarron",
       "avatar_url": "https://avatars2.githubusercontent.com/u/9155723?v=4",
@@ -933,6 +919,51 @@
       "profile": "https://github.com/alceil",
       "contributions": [
         "code"
+      ]
+    },
+    {
+      "login": "hatsu38",
+      "name": "hatsu",
+      "avatar_url": "https://avatars.githubusercontent.com/u/16137809?v=4",
+      "profile": "https://github.com/hatsu38",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "praveenscience",
+      "name": "Praveen Kumar Purushothaman",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1830380?v=4",
+      "profile": "https://github.com/praveenscience",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "Amirosagan",
+      "name": "Amir Elsagan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/53624184?v=4",
+      "profile": "https://github.com/Amirosagan",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "korzck",
+      "name": "korzck",
+      "avatar_url": "https://avatars.githubusercontent.com/u/87325587?v=4",
+      "profile": "https://github.com/korzck",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "sakibulalam",
+      "name": "Sakibul Alam",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4949223?v=4",
+      "profile": "https://github.com/sakibulalam",
+      "contributions": [
+        "translation"
       ]
     }
   ],

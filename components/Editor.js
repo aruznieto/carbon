@@ -42,7 +42,7 @@ const SnippetToolbar = dynamic(() => import('./SnippetToolbar'), {
   loading: () => null,
 })
 
-const getConfig = omit(['code'])
+const getConfig = omit(['code', 'titleBar'])
 const unsplashPhotographerCredit = /\n\n\/\/ Photo by.+?on Unsplash/
 
 class Editor extends React.Component {
@@ -88,9 +88,12 @@ class Editor extends React.Component {
     leading: true,
   })
 
-  updateState = updates => this.setState(updates, () => this.onUpdate(this.state))
+  sync = () => this.onUpdate(this.state)
+
+  updateState = updates => this.setState(updates, this.sync)
 
   updateCode = code => this.updateState({ code })
+  updateTitleBar = titleBar => this.updateState({ titleBar })
   updateWidth = width => this.setState({ widthAdjustment: false, width })
 
   getCarbonImage = async (
@@ -108,8 +111,10 @@ class Editor extends React.Component {
     const config = {
       style: {
         transform: `scale(${exportSize})`,
-        'transform-origin': 'center',
+        transformOrigin: 'top left',
         background: squared ? this.state.backgroundColor : 'none',
+        alignItems: 'start',
+        justifyContent: 'start',
       },
       filter: n => {
         if (n.className) {
@@ -253,7 +258,7 @@ class Editor extends React.Component {
     }
   }
 
-  updateTheme = theme => this.updateState({ theme })
+  updateTheme = theme => this.updateState({ theme, highlights: null })
   updateHighlights = updates =>
     this.setState(({ highlights = {} }) => ({
       highlights: {
@@ -290,9 +295,17 @@ class Editor extends React.Component {
       .then(() =>
         this.props.setToasts({
           type: 'SET',
-          toasts: [{ children: 'Snippet duplicated!', timeout: 3000 }],
+          toasts: [{ children: 'Snippet created', timeout: 3000 }],
         })
       )
+
+  handleSnippetUpdate = () =>
+    this.context.snippet.update(this.props.snippet.id, this.state).then(() =>
+      this.props.setToasts({
+        type: 'SET',
+        toasts: [{ children: 'Snippet saved', timeout: 3000 }],
+      })
+    )
 
   handleSnippetDelete = () =>
     this.context.snippet
@@ -314,6 +327,7 @@ class Editor extends React.Component {
       backgroundMode,
       code,
       exportSize,
+      titleBar,
     } = this.state
 
     const config = getConfig(this.state)
@@ -345,25 +359,27 @@ class Editor extends React.Component {
             onChange={this.updateLanguage}
           />
           <div className="toolbar-second-row">
-            <BackgroundSelect
-              onChange={this.updateBackground}
-              updateHighlights={this.updateHighlights}
-              mode={backgroundMode}
-              color={backgroundColor}
-              image={backgroundImage}
-              carbonRef={this.carbonNode.current}
-            />
-            <Settings
-              {...config}
-              onChange={this.updateSetting}
-              resetDefaultSettings={this.resetDefaultSettings}
-              format={this.format}
-              applyPreset={this.applyPreset}
-              getCarbonImage={this.getCarbonImage}
-            />
-            <div id="style-editor-button" />
-            <div className="buttons">
+            <div className="setting-buttons">
+              <BackgroundSelect
+                onChange={this.updateBackground}
+                updateHighlights={this.updateHighlights}
+                mode={backgroundMode}
+                color={backgroundColor}
+                image={backgroundImage}
+                carbonRef={this.carbonNode.current}
+              />
+              <Settings
+                {...config}
+                onChange={this.updateSetting}
+                resetDefaultSettings={this.resetDefaultSettings}
+                format={this.format}
+                applyPreset={this.applyPreset}
+                getCarbonImage={this.getCarbonImage}
+              />
               <CopyMenu copyImage={this.copyImage} carbonRef={this.carbonNode.current} />
+            </div>
+            <div id="style-editor-button" />
+            <div className="share-buttons">
               <ShareMenu tweet={this.tweet} imgur={this.imgur} />
               <ExportMenu
                 onChange={this.updateSetting}
@@ -387,23 +403,26 @@ class Editor extends React.Component {
                 config={this.state}
                 onChange={this.updateCode}
                 updateWidth={this.updateWidth}
+                updateWidthConfirm={this.sync}
                 loading={this.state.loading}
                 theme={theme}
+                titleBar={titleBar}
+                onTitleBarChange={this.updateTitleBar}
               >
                 {code != null ? code : DEFAULT_CODE}
               </Carbon>
             </Overlay>
           )}
         </Dropzone>
-        {this.props.snippet && (
-          <SnippetToolbar
-            snippet={this.props.snippet}
-            onCreate={this.handleSnippetCreate}
-            onDelete={this.handleSnippetDelete}
-            name={config.name}
-            onChange={this.updateSetting}
-          />
-        )}
+        <SnippetToolbar
+          state={this.state}
+          snippet={this.props.snippet}
+          onCreate={this.handleSnippetCreate}
+          onDelete={this.handleSnippetDelete}
+          onUpdate={this.handleSnippetUpdate}
+          name={config.name}
+          onChange={this.updateSetting}
+        />
         <FontFace {...config} />
         <style jsx>
           {`
@@ -414,22 +433,33 @@ class Editor extends React.Component {
               padding: 16px;
             }
 
-            .buttons {
+            .share-buttons,
+            .setting-buttons {
               display: flex;
+              height: 40px;
+            }
+            .share-buttons {
               margin-left: auto;
             }
             .toolbar-second-row {
-              height: 40px;
               display: flex;
               flex: 1 1 auto;
             }
-            .toolbar-second-row > :global(div:not(:last-of-type)) {
+            .setting-buttons > :global(div) {
               margin-right: 0.5rem;
             }
 
             #style-editor-button {
               display: flex;
               align-items: center;
+            }
+            @media (max-width: 768px) {
+              .toolbar-second-row {
+                display: block;
+              }
+              #style-editor-button {
+                margin-top: 0.5rem;
+              }
             }
           `}
         </style>

@@ -34,17 +34,14 @@ export default async function id(req, res) {
     }
   }
 
-  const host = (req.headers && req.headers.host) || 'carbon.now.sh'
-
   try {
-    await chrome.font(`https://${host}/static/fonts/NotoSansSC-Regular.otf`)
     await chrome.font(NOTO_COLOR_EMOJI_URL)
   } catch (e) {
     console.error(e)
   }
 
   const browser = await puppeteer.launch({
-    args: chrome.args,
+    args: [...chrome.args, '--hide-scrollbars'],
     defaultViewport: chrome.defaultViewport,
     executablePath: await chrome.executablePath,
     headless: chrome.headless,
@@ -59,7 +56,7 @@ export default async function id(req, res) {
 
     const queryString = state ? `state=${state}` : qs.stringify(params)
 
-    await page.goto(`https://${host}/${id ? id : `?${queryString}`}`)
+    await page.goto(`https://carbon.now.sh/${id ? id : `?${queryString}`}`)
     await page.addScriptTag({ url: DOM_TO_IMAGE_URL })
 
     await page.waitForSelector('.export-container', { visible: true, timeout: 9500 })

@@ -201,6 +201,8 @@ class Carbon extends React.PureComponent {
             <div className="container">
               {config.windowControls ? (
                 <WindowControls
+                  titleBar={this.props.titleBar}
+                  onTitleBarChange={this.props.onTitleBarChange}
                   theme={config.windowTheme}
                   code={this.props.children}
                   copyable={this.props.copyable}
@@ -223,10 +225,13 @@ class Carbon extends React.PureComponent {
                 <div className="bg" />
               </div>
 
+              {/* TODO pass in this child as a prop to Carbon */}
               <WidthHandler
                 innerRef={this.props.innerRef}
                 onChange={this.props.updateWidth}
+                onChangeComplete={this.props.updateWidthConfirm}
                 paddingHorizontal={config.paddingHorizontal}
+                paddingVertical={config.paddingVertical}
               />
             </div>
           )}
@@ -355,6 +360,9 @@ class Carbon extends React.PureComponent {
               .container :global([contenteditable='true']) {
                 user-select: text;
               }
+              .container {
+                max-width: 480px;
+              }
             }
 
             .section,
@@ -365,6 +373,7 @@ class Carbon extends React.PureComponent {
               justify-content: center;
               align-items: center;
               overflow: hidden;
+              max-width: 100%;
             }
           `}
         </style>
